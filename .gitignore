@@ -24,6 +24,7 @@ deploy-u3-root.sh
 *.zip
 *.tar.gz
 *.rar
+*.tar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
