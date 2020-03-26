@@ -2,6 +2,7 @@ version: '3.2'
 services:
   web:
     image: "mohamnag/nginx-file-browser"
+    network_mode: bridge
     ports:
       - ${WEB_PORT}:80
     volumes:
@@ -10,6 +11,7 @@ services:
         target: /opt/www/files/      
   playlist:
     image: "dreamworkerln/m3u8gen-playlist"
+    network_mode: bridge
     environment:
       m3u8gen.init.host: ${HOST_NAME}
       m3u8gen.init.port: ${WEB_PORT}
