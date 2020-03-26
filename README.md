@@ -3,7 +3,7 @@ m3u8 playlist generator based on mohamnag/nginx-file-browser - allow play music 
 
 ## Install
 
-1. Install docker, docker-compose (get ne wversions)   
+1. Install docker, docker-compose (get new versions)   
 
 2. Download docker-compose.yml  
 
