@@ -1,0 +1,21 @@
+version: '3.2'
+services:
+  web:
+    image: "mohamnag/nginx-file-browser"
+    ports:
+      - ${WEB_PORT}:80
+    volumes:
+      - type: bind
+        source: ${MUSIC_PATH}
+        target: /opt/www/files/      
+  playlist:
+    image: "dreamworkerln/m3u8gen-playlist"
+    environment:
+      m3u8gen.init.host: ${HOST_NAME}
+      m3u8gen.init.port: ${WEB_PORT}
+    ports:
+      - ${PLAYLIST_PORT}:80    
+    volumes:
+      - type: bind
+        source: ${MUSIC_PATH}
+        target: /music/
