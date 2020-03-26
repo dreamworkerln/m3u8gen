@@ -1,5 +1,5 @@
 # m3u8gen  
-m3u8 playlist generator for docker mohamnag/nginx-file-browser - allow play music on (android) VLC  
+m3u8 playlist generator based on mohamnag/nginx-file-browser - allow play music on (android) VLC  
 
 ## Install
 
