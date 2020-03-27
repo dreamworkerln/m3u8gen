@@ -13,7 +13,7 @@ wget https://raw.githubusercontent.com/dreamworkerln/m3u8gen/master/docker-compo
 ```  
 WEB_PORT=7001 PLAYLIST_PORT=7002 MUSIC_PATH="/my/path/to/music" HOST_NAME="<you_host_name>" docker-compose -p m3u8gen up -d  
 ```
-Stop
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop
 ```  
 WEB_PORT=7001 PLAYLIST_PORT=7002 MUSIC_PATH="/my/path/to/music" HOST_NAME="<you_host_name>" docker-compose -p m3u8gen down   
 ```
