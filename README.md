@@ -21,5 +21,5 @@ m3u8 playlist generator based on mohamnag/nginx-file-browser - allow play music 
 ## Howto use
 Open in (android) VLC or other players that supports M3U8 
 ```
-http://<you_host_name>:7002/playlist
+http://<MY_HOST_NAME>:7002/playlist
 ```   
