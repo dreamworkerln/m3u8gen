@@ -1,0 +1,12 @@
+[Unit]
+Description=m3u8gen
+Requires=docker.service
+After=docker.service
+[Service]
+EnvironmentFile=/PATH/TO/CONFIG/FILE/config
+Restart=always
+WorkingDirectory=/PATH/TO/CONFIG/FILE
+ExecStart=/usr/local/bin/docker-compose -p ${PROJECT_NAME} up
+ExecStop=/usr/local/bin/docker-compose -p ${PROJECT_NAME} down
+[Install]
+WantedBy=multi-user.target
