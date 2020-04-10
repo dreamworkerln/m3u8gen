@@ -5,17 +5,17 @@ m3u8 playlist generator based on mohamnag/nginx-file-browser - allow play music 
 
 1. Install docker, docker-compose (get new versions)   
 
-2. Download docker-compose.yml  
-```
-wget https://raw.githubusercontent.com/dreamworkerln/m3u8gen/master/docker-compose.yml
-```
-3. Start (in directory with docker-compose.yml)
+2. Download docker-compose.yml, config, start.sh, stop.sh  
+
+3. Configure config file. (Don't forget set right permission to /MY/PATH/TO/MUSIC/ files and folders)  
+
+4. Start (in directory with docker-compose.yml)  
 ```  
-WEB_PORT=7001 PLAYLIST_PORT=7002 MUSIC_PATH="/my/path/to/music" HOST_NAME="<you_host_name>" docker-compose -p m3u8gen up -d
+./start.sh
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stop
 ```  
-WEB_PORT=7001 PLAYLIST_PORT=7002 MUSIC_PATH="/my/path/to/music" HOST_NAME="<you_host_name>" docker-compose -p m3u8gen down
+./stop.sh
 ```
 
 ## Howto use
