@@ -1,15 +1,20 @@
 package ru.home.m3u8gen.service;
 
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ru.home.m3u8gen.model.Song;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +27,12 @@ import static com.pivovarit.function.ThrowingSupplier.unchecked;
 
 @Service
 public class PlaylistGenService {
+
+    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    private final DirectoryWatchService directoryWatchService;
+
+    private String playlist = null;
 
     //@Value("${m3u8gen.init.music}")
 
@@ -37,27 +48,44 @@ public class PlaylistGenService {
     @Value("${m3u8gen.init.prefix}")
     private String PREFIX;
 
+    @Autowired
+    public PlaylistGenService(DirectoryWatchService directoryWatchService) {
+        this.directoryWatchService = directoryWatchService;
+    }
+
+
+    public void init() throws IOException {
+        generatePlayList();
+        directoryWatchService.watchDirectory(MUSIC, this::generatePlayList);
+    }
+
     public String getPlayList() {
+        return playlist;
+    }
+
+
+    private void generatePlayList() {
 
         StringBuilder sb = new StringBuilder();
-
-        //List<String> list = new ArrayList<>();
-        //List<String> names = new ArrayList<>();
-
         List<Song> songs = new ArrayList<>();
 
-
-
-        try (Stream<Path> files = Files.walk(Paths.get(MUSIC))) {
+        try (Stream<Path> files = Files.walk(Paths.get(MUSIC), FileVisitOption.FOLLOW_LINKS)) {
 
 
             files.forEach(path -> {
+
+                if (Files.isDirectory(path)) {
+                    return; // aka continue in forEach
+                }
 
                 String s = path.toString();
 
                 //System.out.println(s);
 
+
+
                 String ext = FilenameUtils.getExtension(s);
+
 
                 if (ext.equals("mp3") || ext.equals("ogg")) {
 
@@ -88,20 +116,18 @@ public class PlaylistGenService {
 
         sb.append("#EXTM3U\n");
 
-        int i=0;
         for (Song s  : songs) {
 
             sb.append("#EXTINF:123, " + s.getName());
-            i++;
             sb.append("\n");
             sb.append(s.getUrl());
             sb.append("\n");
 
         }
 
+        playlist = sb.toString();
 
-
-        return sb.toString();
+        log.info("Playlist generated");
     }
 
 }

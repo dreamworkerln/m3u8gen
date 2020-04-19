@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+m3u8gen:
+  init:
+    music: /home/khatuncev/Музыка/
+    host: localhost
+    port: 8891
+    prefix: /files/
