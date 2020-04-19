@@ -1,5 +1,6 @@
 # m3u8gen  
 m3u8 playlist generator based on mohamnag/nginx-file-browser - allow play music on (android) VLC  
+Will rebuild playlist on changes in music directory (files uploaded/deleted)   
 
 ## Install
 
