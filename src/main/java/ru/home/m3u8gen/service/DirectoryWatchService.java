@@ -8,12 +8,14 @@ import ru.home.m3u8gen.utils.Timer;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.pivovarit.function.ThrowingRunnable.unchecked;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 
 @Service
 public class DirectoryWatchService {
@@ -27,14 +29,28 @@ public class DirectoryWatchService {
 
         Timer timer = new Timer();
 
+
+
+
         /*System.getProperty("user.home")*/
         Path path = Paths.get(directory);
 
-        path.register(
-            watchService,
-            StandardWatchEventKinds.ENTRY_CREATE,
-            StandardWatchEventKinds.ENTRY_DELETE,
-            StandardWatchEventKinds.ENTRY_MODIFY);
+
+        // register all subfolders
+        Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                dir.register(
+                    watchService,
+                    ENTRY_CREATE,
+                    StandardWatchEventKinds.ENTRY_DELETE,
+                    StandardWatchEventKinds.ENTRY_MODIFY);
+
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+
 
 
 
@@ -46,7 +62,7 @@ public class DirectoryWatchService {
                 while ((key = watchService.take()) != null) {
 
                     // may call very many times per one file download progress
-                    //log.info("Detected changes in directory, scheduling playlist rebuild");
+                    // log.info("Detected changes in directory, scheduling playlist rebuild");
 
                     timer.single(callback, TimeUnit.SECONDS, 10);
 
