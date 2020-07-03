@@ -45,7 +45,8 @@ public class DirectoryWatchService {
                 WatchKey key;
                 while ((key = watchService.take()) != null) {
 
-                    log.info("Detected changes in directory, scheduling playlist rebuild");
+                    // may call very many times per one file download progress
+                    //log.info("Detected changes in directory, scheduling playlist rebuild");
 
                     timer.single(callback, TimeUnit.SECONDS, 10);
 
