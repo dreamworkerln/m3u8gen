@@ -18,7 +18,7 @@ Will rebuild playlist on changes in music directory (files uploaded/deleted)
 ```  
 ./stop.sh
 ```
-5. Optionally configure and install systemd module from systemd/ 
+5. Optionally configure and install systemd module from systemd - need to move to docker restart policies 
 
 
 ## Howto use
